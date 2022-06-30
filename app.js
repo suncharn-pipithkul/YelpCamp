@@ -1,8 +1,8 @@
 const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
+const methodOverride = require('method-override');
 const Campground = require('./models/campground');
-const { urlencoded } = require('express');
 
 mongoose.connect('mongodb://localhost:27017/yelp-camp');
 
@@ -23,6 +23,9 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/views'));
 
 app.use(express.urlencoded({ extended: true })); // how to parse req.body
+
+// attach query key "_method" in form to override html method
+app.use(methodOverride('_method'));
 
 app.get('/', (req, res) => {
   res.render('home.ejs');
@@ -47,6 +50,18 @@ app.get('/campgrounds/:id', async (req, res) => {
   const { id } = req.params;
   const campground = await Campground.findById(id);
   res.render('campgrounds/show.ejs', { campground });
+});
+
+app.get('/campgrounds/:id/edit', async (req, res) => {
+  const { id } = req.params;
+  const campground = await Campground.findById(id);
+  res.render('campgrounds/edit.ejs', { campground });
+});
+
+app.put('/campgrounds/:id', async (req, res) => {
+  const { id } = req.params;
+  const campground = await Campground.findByIdAndUpdate(id, { ...req.body.campground });
+  res.redirect(`/campgrounds/${campground._id}`);
 });
 
 
