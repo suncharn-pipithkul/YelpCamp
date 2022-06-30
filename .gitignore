@@ -6,3 +6,6 @@ node_modules
 
 # Ignore all text files
 *.txt
+
+# # Ignore seed data generator
+# seeds

@@ -1,7 +1,7 @@
 const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
-const app = express();
+const Campground = require('./models/campground');
 
 mongoose.connect('mongodb://localhost:27017/yelp-camp');
 
@@ -16,12 +16,24 @@ db.once('open', () => {
   console.log('Database connected');
 });
 
+const app = express();
+
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/views'));
 
 app.get('/', (req, res) => {
   res.render('home.ejs');
 });
+
+app.get('/makecampground', async (req, res) => {
+  const camp = new Campground({
+    title: 'My Backyard',
+    description: 'cheap camping!'
+  });
+
+  await camp.save();
+  res.send(camp);
+})
 
 const PORT = 8080;
 app.listen(PORT, () => {
