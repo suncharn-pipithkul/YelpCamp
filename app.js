@@ -2,6 +2,7 @@ const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
+const ejsMate = require('ejs-mate');
 const Campground = require('./models/campground');
 
 mongoose.connect('mongodb://localhost:27017/yelp-camp');
@@ -19,11 +20,12 @@ db.once('open', () => {
 
 const app = express();
 
+app.engine('ejs', ejsMate); // use ejsMate to parse ejs
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/views'));
 
+// MIDDLEWARE (req => middleware => res)
 app.use(express.urlencoded({ extended: true })); // how to parse req.body
-
 // attach query key "_method" in form to override html method
 app.use(methodOverride('_method'));
 
