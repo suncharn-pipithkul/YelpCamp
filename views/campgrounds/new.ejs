@@ -2,7 +2,12 @@
 <div class="row">
   <h1 class="text-center">New Campground</h1>
   <div class="col-6 offset-3">
-    <form action="/campgrounds" method="POST">
+    <form
+      class="needs-validation"
+      action="/campgrounds"
+      method="POST"
+      novalidate
+    >
       <div class="mb-3">
         <label class="form-label" for="title">Title</label>
         <input
@@ -10,7 +15,9 @@
           type="text"
           id="title"
           name="campground[title]"
+          required
         />
+        <div class="invalid-feedback">Please provide a campground title.</div>
       </div>
       <div class="mb-3">
         <label class="form-label" for="location">Location</label>
@@ -19,7 +26,9 @@
           type="text"
           id="location"
           name="campground[location]"
+          required
         />
+        <div class="invalid-feedback">Please provide a location.</div>
       </div>
       <div class="mb-3">
         <label class="form-label" for="image">Image Url</label>
@@ -28,7 +37,9 @@
           type="text"
           id="image"
           name="campground[image]"
+          required
         />
+        <div class="invalid-feedback">Please provide an image url.</div>
       </div>
 
       <div class="mb-3">
@@ -43,7 +54,9 @@
             name="campground[price]"
             aria-label="price"
             aria-describedby="price-label"
+            required
           />
+          <div class="invalid-feedback">Please provide a valid price.</div>
         </div>
       </div>
 
@@ -54,7 +67,11 @@
           type="text"
           id="description"
           name="campground[description]"
+          required
         ></textarea>
+        <div class="invalid-feedback">
+          Please provide a campground description.
+        </div>
       </div>
       <div class="mb-3">
         <button class="btn btn-success">Add Campground</button>
