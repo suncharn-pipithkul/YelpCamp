@@ -5,7 +5,7 @@ const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
-const { campgroundSchema } = require('./schema');
+const { campgroundSchema, reviewSchema } = require('./schema');
 const Campground = require('./models/campground');
 const Review = require('./models/review');
 
@@ -36,6 +36,17 @@ app.use(methodOverride('_method'));
 // server-side campground object validation function/middleware
 const validateCampground = (req, res, next) => {
   const { error } = campgroundSchema.validate(req.body);
+  if (error) {
+    const msg = error.details.map(el => el.message).join(',');
+    throw new ExpressError(msg, 400);
+  } else {
+    next();
+  }
+};
+
+// server-side review object validation function/middleware
+const validateReview = (req, res, next) => {
+  const { error } = reviewSchema.validate(req.body);
   if (error) {
     const msg = error.details.map(el => el.message).join(',');
     throw new ExpressError(msg, 400);
@@ -96,7 +107,7 @@ app.delete('/campgrounds/:id', catchAsync(async (req, res) => {
 }));
 
 // Submit campground review route
-app.post('/campgrounds/:id/reviews', catchAsync(async (req, res) => {
+app.post('/campgrounds/:id/reviews', validateReview, catchAsync(async (req, res) => {
   const { id } = req.params;
   const campground = await Campground.findById(id);
   const review = new Review(req.body.review);
