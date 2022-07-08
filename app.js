@@ -3,11 +3,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
-const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
-const { campgroundSchema, reviewSchema } = require('./schema');
+const catchAsync = require('./utils/catchAsync');
 const Campground = require('./models/campground');
 const Review = require('./models/review');
+const { reviewSchema } = require('./schema');
+
+const campgroundRoutes = require('./routes/campgrounds');
 
 mongoose.connect('mongodb://localhost:27017/yelp-camp');
 
@@ -33,17 +35,6 @@ app.use(express.urlencoded({ extended: true })); // how to parse req.body
 // attach query key "_method" in form to override html method
 app.use(methodOverride('_method'));
 
-// server-side campground object validation function/middleware
-const validateCampground = (req, res, next) => {
-  const { error } = campgroundSchema.validate(req.body);
-  if (error) {
-    const msg = error.details.map(el => el.message).join(',');
-    throw new ExpressError(msg, 400);
-  } else {
-    next();
-  }
-};
-
 // server-side review object validation function/middleware
 const validateReview = (req, res, next) => {
   const { error } = reviewSchema.validate(req.body);
@@ -60,51 +51,8 @@ app.get('/', (req, res) => {
   res.render('home.ejs');
 });
 
-// All campgrounds page
-app.get('/campgrounds', catchAsync(async (req, res) => {
-  const campgrounds = await Campground.find({});
-  res.render('campgrounds/index.ejs', { campgrounds });
-}));
-
-// Create new campground page
-app.get('/campgrounds/new', (req, res) => {
-  res.render('campgrounds/new.ejs');
-});
-
-// Submit new campground route
-app.post('/campgrounds', validateCampground, catchAsync(async (req, res) => {
-  const campground = new Campground(req.body.campground);
-  await campground.save();
-  res.redirect(`/campgrounds/${campground._id}`);
-}));
-
-// View campground detail page
-app.get('/campgrounds/:id', catchAsync(async (req, res) => {
-  const { id } = req.params;
-  const campground = await Campground.findById(id).populate('reviews');
-  res.render('campgrounds/show.ejs', { campground });
-}));
-
-// Edit campground page
-app.get('/campgrounds/:id/edit', catchAsync(async (req, res) => {
-  const { id } = req.params;
-  const campground = await Campground.findById(id);
-  res.render('campgrounds/edit.ejs', { campground });
-}));
-
-// Submit edit campground route
-app.put('/campgrounds/:id', validateCampground, catchAsync(async (req, res) => {
-  const { id } = req.params;
-  const campground = await Campground.findByIdAndUpdate(id, { ...req.body.campground });
-  res.redirect(`/campgrounds/${campground._id}`);
-}));
-
-// Delete campground route
-app.delete('/campgrounds/:id', catchAsync(async (req, res) => {
-  const { id } = req.params;
-  const campground = await Campground.findByIdAndDelete(id);
-  res.redirect(`/campgrounds`);
-}));
+// Campground Routes
+app.use('/campgrounds', campgroundRoutes);
 
 // Submit campground review route
 app.post('/campgrounds/:id/reviews', validateReview, catchAsync(async (req, res) => {
