@@ -28,6 +28,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/views'));
 
 // MIDDLEWARE (req => middleware => res)
+app.use(express.static(path.join(__dirname, '/public'))); // static files ( JS & CSS )
 app.use(express.urlencoded({ extended: true })); // how to parse req.body
 // attach query key "_method" in form to override html method
 app.use(methodOverride('_method'));
@@ -38,10 +39,8 @@ app.get('/', (req, res) => {
   res.render('home.ejs');
 });
 
-// Campground Routes
+// Routes
 app.use('/campgrounds', campgroundRoutes);
-
-// Review Routes
 app.use('/campgrounds/:id/reviews', reviewRoutes);
 
 // Catch all 404 route
