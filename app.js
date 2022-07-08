@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
 const ExpressError = require('./utils/ExpressError');
+const session = require('express-session');
 
 const campgroundRoutes = require('./routes/campgrounds');
 const reviewRoutes = require('./routes/reviews');
@@ -30,8 +31,18 @@ app.set('views', path.join(__dirname, '/views'));
 // MIDDLEWARE (req => middleware => res)
 app.use(express.static(path.join(__dirname, '/public'))); // static files ( JS & CSS )
 app.use(express.urlencoded({ extended: true })); // how to parse req.body
-// attach query key "_method" in form to override html method
-app.use(methodOverride('_method'));
+app.use(methodOverride('_method')); // attach query key "_method" in form to override html method
+const sessionConfig = {
+  secret: 'ThisShouldBeABetterSecret!',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    httpOnly: true, // the cookie can't be accessed through client side script ( prevent XSS flaw)
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+    maxAge: 1000 * 60 * 60 * 24 * 7
+  }
+};
+app.use(session(sessionConfig));
 
 
 // Home page
