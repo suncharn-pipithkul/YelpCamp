@@ -6,6 +6,9 @@ const ejsMate = require('ejs-mate');
 const ExpressError = require('./utils/ExpressError');
 const session = require('express-session');
 const flash = require('connect-flash');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const User = require('./models/user');
 
 const campgroundRoutes = require('./routes/campgrounds');
 const reviewRoutes = require('./routes/reviews');
@@ -50,6 +53,12 @@ app.use((req, res, next) => {
   res.locals.error = req.flash('error');
   next();
 });
+
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login session
+passport.use(new LocalStrategy(User.authenticate())); // tell passport authentication method
+passport.serializeUser(User.serializeUser()); // tell passport how to get user into the session
+passport.deserializeUser(User.deserializeUser()); // tell passport how to get user out of the session
 
 
 // Home page
