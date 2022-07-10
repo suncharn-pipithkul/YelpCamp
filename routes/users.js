@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
+const passport = require('passport');
 const User = require('../models/user');
-const catchAsync = require('../utils/catchAsync');
+// const catchAsync = require('../utils/catchAsync');
 
 
+// Register route
 router.get('/register', (req, res) => {
   res.render('users/register.ejs');
 });
@@ -21,6 +23,20 @@ router.post('/register', async (req, res) => {
     res.redirect('/register');
   }
 });
+
+// Login route
+router.get('/login', (req, res) => {
+  res.render('users/login.ejs');
+});
+
+router.post('/login'
+  , passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' })
+  , (req, res) => {
+    const { username } = req.body;
+    req.flash('success', 'Welcome back,', `${username}!`);
+    res.redirect('/campgrounds');
+  }
+);
 
 
 module.exports = router;
