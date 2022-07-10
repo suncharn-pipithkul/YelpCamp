@@ -18,4 +18,13 @@ const UserSchema = new Schema({
 // It also make sures username is unique + additional methods
 UserSchema.plugin(passportLocalMongoose);
 
+// Handling unique email error
+UserSchema.post('save', function (error, doc, next) {
+  if (error.name === 'MongoServerError' && error.code === 11000 && error.keyValue.email) {
+    next(new Error('Email address was already taken, please choose a different one.'));
+  } else {
+    next(error);
+  }
+});
+
 module.exports = mongoose.model('User', UserSchema);
