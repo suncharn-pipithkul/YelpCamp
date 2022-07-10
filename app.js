@@ -49,17 +49,19 @@ const sessionConfig = {
 };
 app.use(session(sessionConfig));
 app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login session (MUST BE AFTER session() middleware)
+passport.use(new LocalStrategy(User.authenticate())); // tell passport authentication method
+passport.serializeUser(User.serializeUser()); // tell passport how to get user into the session
+passport.deserializeUser(User.deserializeUser()); // tell passport how to get user out of the session
+
 app.use((req, res, next) => {
+  res.locals.currentUser = req.user; // MUST BE AFTER serializeUser + deserializeUser
   res.locals.success = req.flash('success');
   res.locals.error = req.flash('error');
   next();
 });
 
-app.use(passport.initialize());
-app.use(passport.session()); // persistent login session
-passport.use(new LocalStrategy(User.authenticate())); // tell passport authentication method
-passport.serializeUser(User.serializeUser()); // tell passport how to get user into the session
-passport.deserializeUser(User.deserializeUser()); // tell passport how to get user out of the session
 
 
 // Home page
