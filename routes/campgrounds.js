@@ -41,7 +41,8 @@ router.post('/', isLoggedIn, validateCampground, catchAsync(async (req, res) => 
 // View campground detail page
 router.get('/:id', catchAsync(async (req, res) => {
   const { id } = req.params;
-  const campground = await Campground.findById(id).populate('reviews');
+  const campground = await Campground.findById(id).populate('reviews').populate('author', 'username');
+
   if (!campground) {
     req.flash('error', 'Cannot find that campground!');
     return res.redirect('/campgrounds');
