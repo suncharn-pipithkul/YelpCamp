@@ -5,18 +5,20 @@ const passport = require('passport');
 
 
 // Register route
-router.get('/register', userController.renderRegisterForm);
-router.post('/register', userController.register);
+router.route('/register')
+  .get(userController.renderRegisterForm)
+  .post(userController.register);
 
 // Login route
-router.get('/login', userController.renderLoginForm);
-router.post('/login'
-  , passport.authenticate('local', {  // function that log user in
-    failureFlash: true, 
-    failureRedirect: '/login',
-    keepSessionInfo: true
+router.route('/login')
+  .get(userController.renderLoginForm)
+  .post(
+    passport.authenticate('local', {  // function that log user in
+      failureFlash: true, 
+      failureRedirect: '/login',
+      keepSessionInfo: true
   })
-  , userController.loginRedirect
+  , userController.loginRedirect // redirect back to user's previous page
 );
 
 // Logout route

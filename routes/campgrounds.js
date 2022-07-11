@@ -20,7 +20,11 @@ router.get('/new', isLoggedIn, campgroundController.renderNewForm);
 // DELETE: Delete campground route
 router.route('/:id')
   .get(catchAsync(campgroundController.showCampground))
-  .put(isLoggedIn, isCampgroundAuthor, validateCampground, catchAsync(campgroundController.updateCampground))
+  .put(
+    isLoggedIn, 
+    isCampgroundAuthor, 
+    validateCampground, 
+    catchAsync(campgroundController.updateCampground))
   .delete(isLoggedIn, isCampgroundAuthor, catchAsync(campgroundController.deleteCampground));
 
 // Edit campground page
