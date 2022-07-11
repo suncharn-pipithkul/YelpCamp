@@ -33,6 +33,13 @@ router.post('/register', async (req, res, next) => {
 
 // Login route
 router.get('/login', (req, res) => {
+  if (req.user) {
+    req.flash('success', `Already logged in as ${req.user.username}`);
+    const redirectUrl = req.session.returnTo || '/campgrounds';
+    delete req.session.returnTo;
+
+    return res.redirect(redirectUrl);
+  }
   res.render('users/login.ejs');
 });
 
@@ -47,7 +54,7 @@ router.post('/login'
     const redirectUrl = req.session.returnTo || '/campgrounds';
     delete req.session.returnTo;
 
-    req.flash('success', 'Welcome back,', `${username}!`);
+    req.flash('success', 'Welcome back,', `${username}`);
     res.redirect(redirectUrl);
   }
 );
