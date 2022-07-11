@@ -32,6 +32,7 @@ router.get('/new', isLoggedIn, (req, res) => {
 // Submit new campground route
 router.post('/', isLoggedIn, validateCampground, catchAsync(async (req, res) => {
   const campground = new Campground(req.body.campground);
+  campground.author = req.user._id;
   await campground.save();
 
   req.flash('success', 'Successfully made a new campground!');
