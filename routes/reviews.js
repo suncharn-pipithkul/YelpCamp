@@ -3,7 +3,7 @@ const router = express.Router({ mergeParams: true }); // pass params from main p
 
 const Campground = require('../models/campground');
 const Review = require('../models/review');
-const { validateReview, isLoggedIn } = require('../middleware');
+const { validateReview, isLoggedIn, isReviewAuthor } = require('../middleware');
 
 const catchAsync = require('../utils/catchAsync');
 
@@ -24,7 +24,7 @@ router.post('/', isLoggedIn, validateReview, catchAsync(async (req, res) => {
 }));
 
 // Delete campground review route
-router.delete('/:reviewId', catchAsync(async (req, res) => {
+router.delete('/:reviewId', isLoggedIn, isReviewAuthor, catchAsync(async (req, res) => {
   const { id, reviewId} = req.params;
 
   // pull all instance of a value(s) from an existing array that match a specified condition

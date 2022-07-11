@@ -3,7 +3,7 @@ const router = express.Router();
 
 const catchAsync = require('../utils/catchAsync');
 const Campground = require('../models/campground');
-const { isLoggedIn, validateCampground, isAuthor } = require('../middleware');
+const { isLoggedIn, validateCampground, isCampgroundAuthor } = require('../middleware');
 
 
 // All campgrounds page
@@ -46,7 +46,7 @@ router.get('/:id', catchAsync(async (req, res) => {
 }));
 
 // Edit campground page
-router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(async (req, res) => {
+router.get('/:id/edit', isLoggedIn, isCampgroundAuthor, catchAsync(async (req, res) => {
   const { id } = req.params;
   const campground = await Campground.findById(id);
   if (!campground) {
@@ -57,7 +57,7 @@ router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(async (req, res) => {
 }));
 
 // Submit edit campground route
-router.put('/:id', isLoggedIn, isAuthor, validateCampground, catchAsync(async (req, res) => {
+router.put('/:id', isLoggedIn, isCampgroundAuthor, validateCampground, catchAsync(async (req, res) => {
   const { id } = req.params;
   const campground = await Campground.findByIdAndUpdate(id, { ...req.body.campground });
 
@@ -66,7 +66,7 @@ router.put('/:id', isLoggedIn, isAuthor, validateCampground, catchAsync(async (r
 }));
 
 // Delete campground route
-router.delete('/:id', isLoggedIn, isAuthor, catchAsync(async (req, res) => {
+router.delete('/:id', isLoggedIn, isCampgroundAuthor, catchAsync(async (req, res) => {
   const { id } = req.params;
   const campground = await Campground.findByIdAndDelete(id);
 
