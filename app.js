@@ -56,6 +56,10 @@ passport.serializeUser(User.serializeUser()); // tell passport how to get user i
 passport.deserializeUser(User.deserializeUser()); // tell passport how to get user out of the session
 
 app.use((req, res, next) => {
+  // store original requested url in session, if not coming from login or landing page
+  if (!['/login', '/'].includes(req.originalUrl)) {
+    req.session.returnTo = req.originalUrl;
+  }
   res.locals.currentUser = req.user; // MUST BE AFTER serializeUser + deserializeUser
   res.locals.success = req.flash('success');
   res.locals.error = req.flash('error');
