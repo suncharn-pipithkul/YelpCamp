@@ -13,11 +13,11 @@ const { isLoggedIn, validateCampground, isCampgroundAuthor } = require('../middl
 // POST: Submit new campground route
 router.route('/')
   .get(catchAsync(campgroundController.index))
-  // .post(isLoggedIn, validateCampground, catchAsync(campgroundController.createCampground));
-  .post(upload.array('image'), (req, res) => {
-    console.dir(req.files);
-    res.send(req.body);
-  })
+  .post(
+    isLoggedIn, 
+    upload.array('image'), // populate req.body with form's data + upload file
+    validateCampground,
+    catchAsync(campgroundController.createCampground));
 
 // Create new campground page
 router.get('/new', isLoggedIn, campgroundController.renderNewForm);
