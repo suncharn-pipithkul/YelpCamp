@@ -9,3 +9,6 @@ node_modules
 
 # # Ignore seed data generator
 # seeds
+
+# Ignore local image storage (only use for testing)
+uploads
