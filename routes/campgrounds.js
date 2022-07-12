@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const campgroundController = require('../controllers/campgrounds');
 const multer = require('multer'); // multiform/form-data parser for form submitting file
-const upload = multer({ dest: 'uploads/' });
+const { storage } = require('../cloudinary')
+const upload = multer({ storage });
 
 const catchAsync = require('../utils/catchAsync');
 const { isLoggedIn, validateCampground, isCampgroundAuthor } = require('../middleware');
