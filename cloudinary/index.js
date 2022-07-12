@@ -11,8 +11,10 @@ cloudinary.config({
 // Settings for our cloudinary storage that works with multer
 const storage = new CloudinaryStorage({
   cloudinary,
-  folder: 'YelpCamp',
-  allowedFormats: [ 'jpeg', 'png', 'jpg' ]
+  params: {
+    folder: 'YelpCamp',
+    allowedFormats: [ 'jpeg', 'png', 'jpg' ]
+  }
 });
 
 
