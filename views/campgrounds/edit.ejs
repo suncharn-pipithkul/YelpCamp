@@ -31,16 +31,6 @@
           required
         />
       </div>
-      <div class="mb-3">
-        <label class="form-label" for="image">Add Image(s)</label>
-        <input 
-          type="file" 
-          name="image" 
-          id="" 
-          accept="image/apng, image/avif, image/gif, image/jpeg, image/png, image/svg+xml, image/webp"
-          multiple 
-        >
-      </div>
       
       <div class="mb-3">
         <label class="form-label" for="price">Campground Price</label>
@@ -73,6 +63,19 @@
       </textarea
         >
       </div>
+
+      <div class="mb-3">
+        <label for="image" class="form-label">Add More Image(s)</label>
+        <input 
+          class="form-control" 
+          type="file" 
+          id="image" 
+          name="image"
+          accept="image/apng, image/avif, image/gif, image/jpeg, image/png, image/svg+xml, image/webp"
+          multiple
+        >
+      </div>
+
       <div class="mb-3">
         <button class="btn btn-info">Update Campground</button>
       </div>
