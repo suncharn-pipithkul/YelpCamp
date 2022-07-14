@@ -8,8 +8,14 @@ const ImageSchema = new Schema({
   filename: String
 });
 
+// Method to get smaller image
 ImageSchema.virtual('thumbnail').get(function() {
   return this.url.replace('/upload', '/upload/w_200');
+});
+
+// Method to crop images to the same size
+ImageSchema.virtual('cover').get(function() {
+  return this.url.replace('/upload', '/upload/ar_4:3,c_crop');
 });
 
 const CampgroundSchema = new Schema({
