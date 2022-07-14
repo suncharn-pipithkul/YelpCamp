@@ -1,3 +1,4 @@
+const { cloudinary } = require('../cloudinary');
 const mongoose = require('mongoose');
 const Review = require('./review');
 const Schema = mongoose.Schema;
@@ -41,11 +42,21 @@ const CampgroundSchema = new Schema({
 // We need to delete all reviews related to this campground as well
 CampgroundSchema.post('findOneAndDelete', async function (campgroundDoc) {
   if (campgroundDoc) {
-    await Review.deleteMany({
-      _id: {
-        $in: campgroundDoc.reviews
+    // Delete reviews
+    if (campgroundDoc.reviews) {
+      await Review.deleteMany({
+        _id: {
+          $in: campgroundDoc.reviews
+        }
+      });
+    }
+
+    // Delete images from cloudinary
+    if (campgroundDoc.images) {
+      for (const img of campgroundDoc.images) {
+         await cloudinary.uploader.destroy(img.filename);
       }
-    });
+    }
   }
 });
 
