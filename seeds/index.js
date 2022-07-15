@@ -30,6 +30,10 @@ const seedDB = async (amount) => {
     const price = random(20) + 10;
     const camp = new Campground({
       author: '62ca7e0a039259892c46b344',
+      geometry: {
+        type: "Point",
+        coordinates: [ -113.133115, 47.020078 ]
+      },
       location: `${cities[rand].city}, ${cities[rand].state}`,
       title: `${sample(descriptors)} ${sample(places)}`,
       description: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ex, molestias consectetur aliquid praesentium beatae maxime labore fuga, fugit hic optio possimus eaque mollitia fugiat? Eveniet cumque laudantium facere vel voluptas?',
@@ -54,7 +58,7 @@ const seedDB = async (amount) => {
   }
 }
 
-seedDB(30).then(() => {
+seedDB(3).then(() => {
   console.log('Seed done');
   console.log('Database disconnected');
   db.close();
