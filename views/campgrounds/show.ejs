@@ -3,6 +3,7 @@
 
 <div class="row">
   <div class="col-6">
+    <div id='map' style='width: 400px; height: 300px;'></div>
     <div id="campgroundCarousel" class="carousel slide" data-bs-ride="carousel">
       <% if (campground.images.length > 1) { %>       
         <div class="carousel-indicators">
@@ -136,3 +137,8 @@
     <% } %>
   </div>
 </div>
+
+<script>
+  const mapboxToken = '<%= process.env.MAPBOX_TOKEN %>';
+</script>
+<script src="/js/showPageMap.js"></script>
