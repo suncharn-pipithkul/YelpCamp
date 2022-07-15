@@ -32,7 +32,7 @@ const seedDB = async (amount) => {
       author: '62ca7e0a039259892c46b344',
       geometry: {
         type: "Point",
-        coordinates: [ -113.133115, 47.020078 ]
+        coordinates: [ cities[rand].longitude, cities[rand].latitude ]
       },
       location: `${cities[rand].city}, ${cities[rand].state}`,
       title: `${sample(descriptors)} ${sample(places)}`,
@@ -58,7 +58,7 @@ const seedDB = async (amount) => {
   }
 }
 
-seedDB(3).then(() => {
+seedDB(20).then(() => {
   console.log('Seed done');
   console.log('Database disconnected');
   db.close();
