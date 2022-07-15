@@ -21,12 +21,19 @@
       <% } %>
 
       <div class="carousel-inner">
-        <% campground.images.forEach( (img, i) => { %>         
-          <div class="carousel-item <%= i === 0 ? 'active' : '' %>">
-            <img src="<%= img.cover %> " class="d-block w-100" alt="">
+        <% if (campground.images.length) { %>
+          <% campground.images.forEach( (img, i) => { %>         
+            <div class="carousel-item <%= i === 0 ? 'active' : '' %>">
+              <img src="<%= img.cover %> " class="d-block w-100" alt="">
+            </div>
+          <% }) %>
+        <% } else { %>
+          <div class="carousel-item active">
+            <img src="https://res.cloudinary.com/dhqivgfzq/image/upload/v1657768730/YelpCamp/no-image_ygqzt6.png" class="d-block w-100" alt="no image available">
           </div>
-        <% }) %>
+        <% } %>
       </div>
+
       <% if (campground.images.length > 1) { %>       
         <button class="carousel-control-prev" type="button" data-bs-target="#campgroundCarousel" data-bs-slide="prev">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
