@@ -8,8 +8,15 @@ const map = new mapboxgl.Map({
 });
 
 // Create a default Marker and add it to the map.
+const popup1 = new mapboxgl.Popup({ offset: 25 })
+                          .setHTML(`
+                            <h3>${campground.title}</h3>
+                            <p>${campground.location}</p>
+                          `);
+
 const marker1 = new mapboxgl.Marker()
 .setLngLat(campground.geometry.coordinates)
+.setPopup(popup1)
 .addTo(map);
 
 map.on('style.load', () => {
