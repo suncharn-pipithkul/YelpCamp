@@ -21,6 +21,7 @@ map.on("load", () => {
     clusterRadius: 50, // Radius of each cluster when clustering points (defaults to 50)
   });
 
+  // Grouped point
   map.addLayer({
     id: "clusters",
     type: "circle",
@@ -45,6 +46,7 @@ map.on("load", () => {
     },
   });
 
+  // Number displayed on grouped point
   map.addLayer({
     id: "cluster-count",
     type: "symbol",
@@ -57,6 +59,7 @@ map.on("load", () => {
     },
   });
 
+  // Singular point
   map.addLayer({
     id: "unclustered-point",
     type: "circle",
@@ -81,6 +84,7 @@ map.on("load", () => {
       .getClusterExpansionZoom(clusterId, (err, zoom) => {
         if (err) return;
 
+        // center map to the cluster user clicked
         map.easeTo({
           center: features[0].geometry.coordinates,
           zoom: zoom,
@@ -114,6 +118,12 @@ map.on("load", () => {
     map.getCanvas().style.cursor = "pointer";
   });
   map.on("mouseleave", "clusters", () => {
+    map.getCanvas().style.cursor = "";
+  });
+  map.on("mouseenter", "unclustered-point", () => {
+    map.getCanvas().style.cursor = "pointer";
+  });
+  map.on("mouseleave", "unclustered-point", () => {
     map.getCanvas().style.cursor = "";
   });
 });
