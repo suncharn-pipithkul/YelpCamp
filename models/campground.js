@@ -19,6 +19,9 @@ ImageSchema.virtual('cover').get(function() {
   return this.url.replace('/upload', '/upload/ar_4:3,c_crop');
 });
 
+// Set mongoose to include virtual properties in the obj 
+// when JSON stringify it
+const opts = { toJSON: { virtuals: true }};
 const CampgroundSchema = new Schema({
   title: String,
   images: [ImageSchema],
@@ -46,6 +49,15 @@ const CampgroundSchema = new Schema({
       ref: 'Review'
     }
   ]
+}, opts);
+
+// property that return a HTML anchor tag to this campground show page
+// This is designed for mapbox
+CampgroundSchema.virtual('properties.popupMarkup').get(function() {
+  return `
+    <strong><a href='/campgrounds/${this._id}'>${this.title}</a></strong>
+    <p>${this.location.substring(0, 20)}</p>
+  `;
 });
 
 // NOTE: findByIdAndDelete calls findOneAndDelete
