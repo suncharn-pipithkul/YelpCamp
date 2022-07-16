@@ -48,7 +48,7 @@ const sessionConfig = {
   cookie: {
     httpOnly: true, // the cookie can't be accessed through client side script ( prevent XSS flaw)
     expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
-    maxAge: 1000 * 60 * 60 * 24 * 7
+    maxAge: 1000 * 60 * 60 * 24 * 7,
   }
 };
 app.use(session(sessionConfig));

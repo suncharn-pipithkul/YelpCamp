@@ -58,7 +58,7 @@ const seedDB = async (amount) => {
   }
 }
 
-seedDB(20).then(() => {
+seedDB(50).then(() => {
   console.log('Seed done');
   console.log('Database disconnected');
   db.close();
