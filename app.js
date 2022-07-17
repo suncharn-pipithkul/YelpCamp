@@ -45,11 +45,13 @@ app.use(express.static(path.join(__dirname, '/public'))); // static files ( JS &
 app.use(express.urlencoded({ extended: true })); // how to parse req.body
 app.use(methodOverride('_method')); // attach query key "_method" in form to override html method
 const sessionConfig = {
+  name: 'session',
   secret: 'ThisShouldBeABetterSecret!',
   resave: false,
   saveUninitialized: true,
   cookie: {
     httpOnly: true, // the cookie can't be accessed through client side script ( prevent XSS flaw)
+    // secure: true, // cookie works only on HTTPS
     expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
     maxAge: 1000 * 60 * 60 * 24 * 7,
     sameSite: 'strict'

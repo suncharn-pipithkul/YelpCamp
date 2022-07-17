@@ -10,12 +10,13 @@ const extension = (joi)=> ({
   rules: {
     escapeHTML: {
       validate(value, helpers) {
+        // Remove Html
         const clean = sanitizeHtml(value, {
           allowedTag: [],
           allowedAttributes: {},
         });
 
-        if (clean !== value)
+        if (clean.replace('&amp;', '&') !== value)
           return helpers.error('string.escapeHTML', { value });
         return clean;
       }
