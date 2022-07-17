@@ -19,6 +19,11 @@ const marker1 = new mapboxgl.Marker()
 .setPopup(popup1)
 .addTo(map);
 
+// Add zoom and rotation controls to the map.
+map.addControl(new mapboxgl.NavigationControl());
+map.addControl(new mapboxgl.FullscreenControl(), 'bottom-right');
+
+
 map.on('style.load', () => {
   map.setFog({}); // Set the default atmosphere style
 });

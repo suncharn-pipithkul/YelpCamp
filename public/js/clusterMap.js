@@ -119,6 +119,16 @@ map.on("load", () => {
       .addTo(map);
   });
 
+  // Add zoom and rotation controls to the map.
+  map.addControl(new mapboxgl.FullscreenControl(), 'bottom-right');
+  map.addControl(new mapboxgl.NavigationControl(), 'bottom-right'); 
+  map.addControl(
+    new MapboxGeocoder({
+      accessToken: mapboxgl.accessToken,
+      mapboxgl: mapboxgl
+    })
+  , 'top-left');
+
   map.on("mouseenter", "clusters", () => {
     map.getCanvas().style.cursor = "pointer";
   });
