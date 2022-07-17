@@ -6,13 +6,13 @@
 </div>
 <ul>
   <% for( const campground of campgrounds ) { %>
-  <div class="card">
+  <div class="card mb-3">
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-4 my-auto mx-auto">
         <% if (campground.images.length) { %>
-          <img class="img-fluid" src="<%= campground.images[0]?.cover %>" alt="" />
+          <img class="img-fluid rounded" src="<%= campground.images[0]?.cover %>" alt="" />
         <% } else { %>
-          <img class="img-fluid" src="https://res.cloudinary.com/dhqivgfzq/image/upload/v1657768730/YelpCamp/no-image_ygqzt6.png" alt="no image available">
+          <img class="img-fluid rounded" src="https://res.cloudinary.com/dhqivgfzq/image/upload/v1657768730/YelpCamp/no-image_ygqzt6.png" alt="no image available">
         <% } %>
       </div>
       <div class="col-md-8">
