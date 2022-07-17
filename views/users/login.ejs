@@ -1,28 +1,50 @@
 <% layout('layouts/boilerplate') %>
-<h1>Login</h1>
-<form class="needs-validation" action="/login" method="POST" novalidate>
-  <div class="mb-3">
-    <label class="form-label" for="username">Username</label>
-    <input
-      class="form-control"
-      type="text"
-      id="username"
-      name="username"
-      required
-    />
-    <div class="invalid-feedback">Please provide a username.</div>
-  </div>
+<div class="container justify-content-center align-items-center mt-5">
+  <div class="row">
+    <div class="col-md-6 offset-md-3 col-xl-4 offset-xl-4">
+      <div class="card shadow">
+        <img 
+          src="https://images.unsplash.com/photo-1631635589499-afd87d52bf64?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2000&q=80" 
+          alt=""
+          class="card-img-top"
+        >
+        <div class="card-body">
 
-  <div class="mb-3">
-    <label class="form-label" for="password">Password</label>
-    <input
-      class="form-control"
-      type="password"
-      id="password"
-      name="password"
-      required
-    />
-    <div class="invalid-feedback">Please provide a password.</div>
+          <h5 class="card-title">Login</h5>
+          <form class="needs-validation" action="/login" method="POST" novalidate>
+            <div class="mb-3">
+              <label class="form-label" for="username">Username</label>
+              <input
+                class="form-control"
+                type="text"
+                id="username"
+                name="username"
+                autofocus
+                required
+              />
+              <div class="invalid-feedback">Please provide a username.</div>
+            </div>
+  
+            <div class="mb-3">
+              <label class="form-label" for="password">Password</label>
+              <input
+                class="form-control"
+                type="password"
+                id="password"
+                name="password"
+                required
+              />
+              <div class="invalid-feedback">Please provide a password.</div>
+            </div>
+            <div class="d-grid gap-2">
+              <button class="btn btn-success">Login</button>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
   </div>
-  <button class="btn btn-success">Login</button>
-</form>
+</div>
+
+
