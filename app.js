@@ -14,6 +14,9 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
 
+// Security Packages
+const mongoSanitize = require('express-mongo-sanitize'); // prevent Mongo injection
+
 const userRoutes = require('./routes/users');
 const campgroundRoutes = require('./routes/campgrounds');
 const reviewRoutes = require('./routes/reviews');
@@ -59,6 +62,8 @@ app.use(passport.session()); // persistent login session (MUST BE AFTER session(
 passport.use(new LocalStrategy(User.authenticate())); // tell passport authentication method
 passport.serializeUser(User.serializeUser()); // tell passport how to get user into the session
 passport.deserializeUser(User.deserializeUser()); // tell passport how to get user out of the session
+
+app.use(mongoSanitize());
 
 app.use((req, res, next) => {
   // store original requested url in session, if not coming from login or landing page
