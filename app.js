@@ -9,6 +9,7 @@ const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
 const ExpressError = require('./utils/ExpressError');
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const flash = require('connect-flash');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
@@ -23,7 +24,7 @@ const campgroundRoutes = require('./routes/campgrounds');
 const reviewRoutes = require('./routes/reviews');
 
 // const mongodb_url = process.env.MONGODB_URL;
-const mongodb_url = 'mongodb://localhost:27017/yelp-camp'
+const mongodb_url = 'mongodb://localhost:27017/yelp-camp';
 mongoose.connect(mongodb_url);
 
 const db = mongoose.connection;
@@ -58,7 +59,14 @@ const sessionConfig = {
     expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
     maxAge: 1000 * 60 * 60 * 24 * 7,
     sameSite: 'strict'
-  }
+  },
+  store: MongoStore.create({
+    mongoUrl: mongodb_url,
+    touchAfter: 24 * 60 * 60,
+    crypto: {
+      secret: 'ThisShouldBeABetterSecret'
+    }
+  })
 };
 app.use(session(sessionConfig));
 app.use(flash());
