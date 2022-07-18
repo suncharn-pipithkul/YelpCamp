@@ -16,6 +16,7 @@ const User = require('./models/user');
 
 // Security Packages
 const mongoSanitize = require('express-mongo-sanitize'); // prevent Mongo injection
+const helmet = require('helmet'); // set HTTP headers for security
 
 const userRoutes = require('./routes/users');
 const campgroundRoutes = require('./routes/campgrounds');
@@ -66,6 +67,59 @@ passport.serializeUser(User.serializeUser()); // tell passport how to get user i
 passport.deserializeUser(User.deserializeUser()); // tell passport how to get user out of the session
 
 app.use(mongoSanitize());
+const scriptSrcUrls = [
+  "https://stackpath.bootstrapcdn.com/",
+  "https://api.tiles.mapbox.com/",
+  "https://api.mapbox.com/",
+  "https://kit.fontawesome.com/",
+  "https://cdnjs.cloudflare.com/",
+  "https://cdn.jsdelivr.net/",
+  "https://res.cloudinary.com/dhqivgfzq/"
+];
+const styleSrcUrls = [
+  "https://kit-free.fontawesome.com/",
+  "https://stackpath.bootstrapcdn.com/",
+  "https://api.mapbox.com/",
+  "https://api.tiles.mapbox.com/",
+  "https://fonts.googleapis.com/",
+  "https://use.fontawesome.com/",
+  "https://cdn.jsdelivr.net/",
+  "https://res.cloudinary.com/dhqivgfzq/"
+];
+const connectSrcUrls = [
+  "https://*.tiles.mapbox.com",
+  "https://api.mapbox.com",
+  "https://events.mapbox.com",
+  "https://res.cloudinary.com/dhqivgfzq/"
+];
+const fontSrcUrls = [ "https://res.cloudinary.com/dhqivgfzq/" ];
+
+app.use(
+  helmet({
+      contentSecurityPolicy: {
+          directives : {
+              defaultSrc : [],
+              connectSrc : [ "'self'", ...connectSrcUrls ],
+              scriptSrc  : [ "'unsafe-inline'", "'self'", ...scriptSrcUrls ],
+              styleSrc   : [ "'self'", "'unsafe-inline'", ...styleSrcUrls ],
+              workerSrc  : [ "'self'", "blob:" ],
+              objectSrc  : [],
+              imgSrc     : [
+                  "'self'",
+                  "blob:",
+                  "data:",
+                  "https://res.cloudinary.com/dhqivgfzq/", //SHOULD MATCH YOUR CLOUDINARY ACCOUNT!
+                  "https://images.unsplash.com/"
+              ],
+              fontSrc    : [ "'self'", ...fontSrcUrls ],
+              mediaSrc   : [ "https://res.cloudinary.com/dhqivgfzq/" ],
+              childSrc   : [ "blob:" ]
+          }
+      },
+      crossOriginEmbedderPolicy: false
+  })
+);
+
 
 app.use((req, res, next) => {
   // store original requested url in session, if not coming from login or landing page
