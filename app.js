@@ -23,8 +23,7 @@ const userRoutes = require('./routes/users');
 const campgroundRoutes = require('./routes/campgrounds');
 const reviewRoutes = require('./routes/reviews');
 
-// const mongodb_url = process.env.MONGODB_URL;
-const mongodb_url = 'mongodb://localhost:27017/yelp-camp';
+const mongodb_url = process.env.MONGODB_URL || 'mongodb://localhost:27017/yelp-camp';
 mongoose.connect(mongodb_url);
 
 const db = mongoose.connection;
@@ -48,9 +47,11 @@ app.set('views', path.join(__dirname, '/views'));
 app.use(express.static(path.join(__dirname, '/public'))); // static files ( JS & CSS )
 app.use(express.urlencoded({ extended: true })); // how to parse req.body
 app.use(methodOverride('_method')); // attach query key "_method" in form to override html method
+
+const mongodb_secret = process.env.MONGODB_SECRET || 'ThisShouldBeABetterSecret!';
 const sessionConfig = {
   name: 'session',
-  secret: 'ThisShouldBeABetterSecret!',
+  secret: mongodb_secret,
   resave: false,
   saveUninitialized: true,
   cookie: {
@@ -64,7 +65,7 @@ const sessionConfig = {
     mongoUrl: mongodb_url,
     touchAfter: 24 * 60 * 60,
     crypto: {
-      secret: 'ThisShouldBeABetterSecret'
+      secret: mongodb_secret
     }
   })
 };
@@ -168,7 +169,7 @@ app.use((err, req, res, next) => {
 });
 
 
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`App is listening on port ${PORT}`);
 });
