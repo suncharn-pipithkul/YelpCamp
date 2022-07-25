@@ -18,7 +18,11 @@ body {
   max-width: 60vw;
 }
 
-.nav-link {
+.navbar {
+  --bs-dark-rgb: 0, 0, 0;
+  --bs-bg-opacity: 0;
+}
+/* .nav-link {
   padding: 0.25rem 0;
   font-weight: 700;
   color: rgba(255, 255, 255, 0.5);
@@ -39,4 +43,4 @@ body {
 .btn-secondary, .btn-secondary:hover {
   color: #333;
   text-shadow: none;
-}
+} */

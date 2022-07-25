@@ -1,4 +1,6 @@
 <% layout('layouts/boilerplate') %>
+<main class="container p-5">
+
 <div class="row">
   <h1 class="text-center">Edit Campground</h1>
   <div class="col-md-6 offset-md-3">
@@ -51,6 +53,19 @@
       </div>
 
       <div class="mb-3">
+        <label class="form-label" for="category">Category</label>
+        <select class="form-select" name="campground[category]" aria-label="multiple select category" multiple>
+          <!-- <option value="" selected disabled>Select Categories...</option> -->
+          <option value="tent" <%= campground.category.includes('tent') ? 'selected=true' : ''%>>Tent Camping</option>
+          <option value="hiking" <%= campground.category.includes('hiking') ? 'selected=true' : '' %>>Hiking Camping</option>
+          <option value="car" <%= campground.category.includes('car') ? 'selected=true' : '' %>>Car Camping</option>
+          <option value="glamping" <%= campground.category.includes('glamping') ? 'selected=true' : '' %>>Glamping</option>
+          <option value="backyard" <%= campground.category.includes('backyard') ? 'selected=true' : '' %>>Backyard Camping</option>
+        </select>
+        <div class="invalid-feedback">Please select a category.</div>
+      </div>
+
+      <div class="mb-3">
         <label for="image" class="form-label">Add More Image(s)</label>
         <input 
           class="form-control" 
@@ -70,14 +85,11 @@
           id="description"
           name="campground[description]"
           required
-        >
-<%= campground.description %>
-      </textarea
-        >
+        ><%= campground.description %></textarea>
       </div>
 
-      <div class="mb-3">
-        <p>Delete Current Images</p>
+      <div class="mb-5">
+        <p>Check to Delete Current Images</p>
         <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4 g-4 mb-3">   
           <% campground.images.forEach(function (img, i) { %> 
           <div class="col">
@@ -101,10 +113,11 @@
         </div>
       </div>
 
-      <div class="mb-3">
-        <button class="btn btn-info">Update Campground</button>
+      <div class="mb-3 d-flex justify-content-between">
+        <button class="btn btn-dark">Save Change</button>
+        <a type="button" class="btn btn-danger" href="/campgrounds/<%= campground._id %>">Cancel</a>
       </div>
     </form>
-    <a href="/campgrounds/<%= campground._id %>">Back to Campgrounds</a>
   </div>
 </div>
+</main>

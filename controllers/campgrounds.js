@@ -27,6 +27,9 @@ module.exports.createCampground = async (req, res) => {
   campground.geometry = geoData.body.features[0].geometry;
   campground.images = req.files.map(f => { return { url: f.path, filename: f.filename } });
   campground.author = req.user._id;
+  const isCategorized = 'category' in req.body.campground && req.body.campground.category.length > 0;
+  if (!isCategorized)
+    campground.category = [];
   await campground.save();
 
   req.flash('success', 'Successfully made a new campground!');
@@ -66,9 +69,12 @@ module.exports.renderEditForm = async (req, res) => {
 module.exports.updateCampground = async (req, res) => {
   const { deleteImages } = req.body;
   const { id } = req.params;
+  const isCategorized = 'category' in req.body.campground && req.body.campground.category.length > 0;
   const campground = await Campground.findByIdAndUpdate(id, { ...req.body.campground });
   const imgs = req.files.map(f => { return { url: f.path, filename: f.filename } })
   campground.images.push(...imgs);
+  if (!isCategorized)
+    campground.category = [];
   await campground.save();
 
   // remove images that was checked

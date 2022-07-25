@@ -26,6 +26,10 @@ const CampgroundSchema = new Schema({
   title: String,
   images: [ImageSchema],
   price: Number,
+  category: {
+    type: [String],
+    enum: ['tent', 'hiking', 'car', 'glamping', 'backyard']
+  },
   description: String,
   geometry: {
     type: {

@@ -2,8 +2,8 @@ mapboxgl.accessToken = mapboxToken;
 
 const map = new mapboxgl.Map({
   container: "cluster-map",
-  style: "mapbox://styles/mapbox/light-v10",
-  center: [-103.5917, 40.6699],
+  style: "mapbox://styles/mapbox/outdoors-v11",
+  center: [-97.172989, 38.6699],
   zoom: 3,
 });
 
@@ -36,12 +36,14 @@ map.on("load", () => {
       "circle-color": [
         "step",
         ["get", "point_count"],
-        "hsl(63.97, 59.68%, 49.61%)",
+        "hsl(142,77%,38%)",
         10,
-        "hsl(89.20, 46.12%, 48.04%)",
+        "hsl(126,48%,52%)",
         30,
-        "hsl(122.58,40.97%,44.51%)",
+        "hsl(114,78%,73%)",
       ],
+      "circle-stroke-width": 2,
+      "circle-stroke-color": "#fff",
       "circle-radius": ["step", ["get", "point_count"], 
         15, // px width
         10, // step
@@ -72,9 +74,9 @@ map.on("load", () => {
     source: "campgrounds",
     filter: ["!", ["has", "point_count"]],
     paint: {
-      "circle-color": "#11b4da",
-      "circle-radius": 4,
-      "circle-stroke-width": 1,
+      "circle-color": "hsl(216, 98%, 52%)",
+      "circle-radius": 5,
+      "circle-stroke-width": 2,
       "circle-stroke-color": "#fff",
     },
   });
@@ -127,7 +129,7 @@ map.on("load", () => {
       accessToken: mapboxgl.accessToken,
       mapboxgl: mapboxgl
     })
-  , 'top-left');
+  , 'top-right');
 
   map.on("mouseenter", "clusters", () => {
     map.getCanvas().style.cursor = "pointer";

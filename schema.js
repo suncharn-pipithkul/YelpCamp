@@ -30,6 +30,7 @@ module.exports.campgroundSchema = Joi.object({
   campground: Joi.object({
     title: Joi.string().required().escapeHTML(),
     location: Joi.string().required().escapeHTML(),
+    category: Joi.alternatives().try(Joi.string(), Joi.array().items(Joi.string())), // string OR arr of strings
     // image: Joi.string().required(), // Let multer + cloudinary validate images
     price: Joi.number().required().min(0),
     description: Joi.string().required().escapeHTML()

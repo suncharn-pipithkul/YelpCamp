@@ -1,4 +1,6 @@
 <% layout('layouts/boilerplate') %>
+<main class="container p-5">
+
 <div class="row">
   <h1 class="text-center">New Campground</h1>
   <div class="col-md-6 offset-md-3">
@@ -33,7 +35,7 @@
       </div>
 
       <div class="mb-3">
-        <label class="form-label" for="price">Campground Price</label>
+        <label class="form-label" for="price">Price</label>
         <div class="input-group">
           <span class="input-group-text" id="price-label">$</span>
           <input
@@ -48,6 +50,19 @@
           />
           <div class="invalid-feedback">Please provide a valid price.</div>
         </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="category">Category</label>
+        <select class="form-select" name="campground[category]" aria-label="multiple select category" multiple>
+          <!-- <option value="" selected disabled>Select Categories...</option> -->
+          <option value="tent">Tent Camping</option>
+          <option value="hiking">Hiking Camping</option>
+          <option value="car">Car Camping</option>
+          <option value="glamping">Glamping</option>
+          <option value="backyard">Backyard Camping</option>
+        </select>
+        <div class="invalid-feedback">Please select a category.</div>
       </div>
 
       <div class="mb-3">
@@ -80,6 +95,6 @@
         <button class="btn btn-success">Add Campground</button>
       </div>
     </form>
-    <a href="/campgrounds">All Campgrounds</a>
   </div>
 </div>
+</main>

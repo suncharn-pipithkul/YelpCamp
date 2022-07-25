@@ -1,11 +1,13 @@
 <% layout('layouts/boilerplate') %>
 <div id="cluster-map"></div>
-<h1>All Campgrounds</h1>
 
-<ul>
+<main class="container p-5">
+  
+  <!-- Campground Cards -->
   <% for( const campground of campgrounds ) { %>
   <div class="card mb-3">
     <div class="row">
+      <!-- campground image -->
       <div class="col-md-4 my-auto mx-auto">
         <% if (campground.images.length) { %>
           <img class="img-fluid rounded" src="<%= campground.images[0]?.cover %>" alt="" />
@@ -13,23 +15,36 @@
           <img class="img-fluid rounded" src="https://res.cloudinary.com/dhqivgfzq/image/upload/v1657768730/YelpCamp/no-image_ygqzt6.png" alt="no image available">
         <% } %>
       </div>
+
       <div class="col-md-8">
         <div class="card-body">
-          <h5 class="card-title"><%= campground.title %></h5>
-          <p class="card-text"><%= campground.description %></p>
+          <h4 class="card-title text-reset">
+            <a href="/campgrounds/<%= campground._id %>">
+              <%= campground.title %>
+            </a>
+          </h4>
           <p class="card-text">
             <small class="text-secondary"><%= campground.location %> </small>
           </p>
+  
+          <p class="card-text"><%= campground.description %></p>
+          <div class="d-flex gap-2">
+            <% for( let category of campground.category ) { %>
+              <p class="fs-5">
+                <span class="badge bg-secondary rounded-pill">
+                <%= category %>
+                </span>
+              </p>
+            <% } %>
+          </div>
 
-          <a href="/campgrounds/<%= campground._id %>" class="btn btn-primary"
-            >View <%= campground.title %>
-          </a>
         </div>
       </div>
     </div>
   </div>
   <% } %>
-</ul>
+  
+</main>
 
 <script>
   const mapboxToken = '<%= process.env.MAPBOX_TOKEN %>';

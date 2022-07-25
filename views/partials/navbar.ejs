@@ -1,6 +1,7 @@
-<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">YelpCamp</a>
+<nav class="navbar sticky-top navbar-expand-md navbar-dark bg-dark">
+  <div class="container-lg">
+    <a class="navbar-brand" href="/">YelpCamp</a>
+    <!-- hamburger menu -->
     <button
       class="navbar-toggler"
       type="button"
@@ -12,18 +13,23 @@
     >
       <span class="navbar-toggler-icon"></span>
     </button>
+
+    <!-- menu links -->
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
         <a class="nav-link" href="/">Home</a>
         <a class="nav-link" href="/campgrounds">Campgrounds</a>
-        <a class="nav-link" href="/campgrounds/new">New Campground</a>
+        <a class="nav-link" href="/campgrounds/new">Add Campground</a>
       </div>
       <div class="navbar-nav ms-auto">
         <% if (!currentUser) { %>
         <a class="nav-link" href="/login">Login</a>
-        <a class="nav-link" href="/register">Register</a>
+        <!-- <a class="nav-link" href="/register">Register</a> -->
+        <form action="/register" method="GET" class="container-fluid ps-0">
+          <button class="btn btn-primary">Join Free</button>
+        </form>
         <% } else { %>
-        <span class="navbar-text"><%= currentUser.username %></span>
+        <span class="navbar-text">Hi, <strong><%= currentUser.username %></strong></span>
         <a class="nav-link" href="/logout">Logout</a>
         <% } %>
       </div>
