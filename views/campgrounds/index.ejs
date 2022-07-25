@@ -8,7 +8,7 @@
   <div class="card mb-3">
     <div class="row">
       <!-- campground image -->
-      <div class="col-md-4 my-auto mx-auto">
+      <div class="col-lg-4 my-auto mx-auto">
         <% if (campground.images.length) { %>
           <img class="img-fluid rounded" src="<%= campground.images[0]?.cover %>" alt="" />
         <% } else { %>
@@ -16,7 +16,7 @@
         <% } %>
       </div>
 
-      <div class="col-md-8">
+      <div class="col-lg-8">
         <div class="card-body">
           <h4 class="card-title text-reset">
             <a href="/campgrounds/<%= campground._id %>">
