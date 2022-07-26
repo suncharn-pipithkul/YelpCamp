@@ -58,8 +58,10 @@
     <div class="col-lg-6">
       <div class="d-flex justify-content-between align-items-center">
         <h2 class=""><%= campground.title %></h2>
+        <!-- Delete Campground Btn -->
         <% if (currentUser && campground.author.equals(currentUser._id)) { %>
         <form
+          id="deleteCampgroundForm"
           class="d-inline"
           action="/campgrounds/<%= campground._id %>?_method=DELETE"
           method="POST"
@@ -68,6 +70,8 @@
         </form>
         <% } %>
       </div>
+
+      <!-- Categories -->
       <div class="d-flex gap-2">
         <% for( let category of campground.category ) { %>
           <p class="fs-5">
@@ -80,7 +84,7 @@
       <p class=""><small class="text-muted"><%= campground.location %></small></p>
       <p class=""><%= campground.description %></p>
       <p class="">$<%= campground.price %>/night</p>
-      <!-- Edit & Delete buttons -->
+      <!-- Edit buttons -->
       <% if (currentUser && campground.author.equals(currentUser._id)) { %>
         <div class="card-body">
           <a
@@ -140,6 +144,25 @@
       </div>
     <% } %> 
     
+    <!-- Review Delete Modal -->
+    <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header border-0">
+            <h5 class="modal-title" id="modalTitle">Delete</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Are you sure you want to delete this?
+          </div>
+          <div class="modal-footer border-0">
+            <button type="button" class="btn btn-primary" id="confirmBtn">Delete</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Reviews -->
     <% for( const review of campground.reviews ) { %>
       <div class="card mb-3 border border-0 bg-light">
@@ -148,12 +171,14 @@
             <p class="starability-result" data-rating="<%= review.rating %>" >
               Rated: <%= review.rating %> stars
             </p>
-            <% if (currentUser && review.author.equals(currentUser._id)) { %>         
+            
+            <% if (currentUser && review.author.equals(currentUser._id)) { %>    
               <form
+                class="delete-review-form"
                 action="/campgrounds/<%= campground._id %>/reviews/<%= review._id %>?_method=DELETE"
                 method="POST"
               >
-                <button class="btn-close" aria-label="Close" btn-sm btn-danger"></button>
+                <button class="btn-close" aria-label="Close" ></button>
               </form>
             <% } %>
           </div>
@@ -169,6 +194,7 @@
 
 </main>
 
+<script src="/js/showConfirmDelete.js"></script>
 <script>
   const mapboxToken = '<%= process.env.MAPBOX_TOKEN %>';
   const campground = <%- JSON.stringify(campground) %>;
