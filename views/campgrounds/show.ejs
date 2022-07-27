@@ -81,9 +81,11 @@
           </p>
         <% } %>
       </div>
-      <p class=""><small class="text-muted"><%= campground.location %></small></p>
+      <div class="d-flex justify-content-between align-items-center">
+        <p class=""><small class="text-muted"><%= campground.location %></small></p>
+        <p class="me-2">$<%= campground.price %>/night</p>
+      </div>
       <p class=""><%= campground.description %></p>
-      <p class="">$<%= campground.price %>/night</p>
       <!-- Edit buttons -->
       <% if (currentUser && campground.author.equals(currentUser._id)) { %>
         <div class="card-body">

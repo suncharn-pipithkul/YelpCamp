@@ -36,20 +36,23 @@ map.on("load", () => {
       "circle-color": [
         "step",
         ["get", "point_count"],
-        "hsl(142,77%,38%)",
+        // 'hsl(104,99%,35%)',
+        'hsl(216, 90%, 42%)',
+        5,
+        // 'hsl(104,98%,25%)',
+        'hsl(216, 95%, 36%)',
         10,
-        "hsl(126,48%,52%)",
-        30,
-        "hsl(114,78%,73%)",
+        // 'hsl(104,98%,19%)',
+        'hsl(216, 95%, 30%)',
       ],
       "circle-stroke-width": 2,
       "circle-stroke-color": "#fff",
       "circle-radius": ["step", ["get", "point_count"], 
         15, // px width
+        5, // step
+        18, // px width
         10, // step
-        20, // px width
-        30, // step
-        25 // px width
+        20 // px width
       ],
     },
   });
@@ -63,8 +66,15 @@ map.on("load", () => {
     layout: {
       "text-field": "{point_count_abbreviated}",
       "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
-      "text-size": 12,
+      "text-size": [ "step", ["get", "point_count"], 
+        12,
+        5,
+        14
+      ],
     },
+    paint: {
+      "text-color": "hsl(100, 100%, 100%)"
+    }
   });
 
   // Singular point
