@@ -69,13 +69,24 @@ module.exports.renderEditForm = async (req, res) => {
 module.exports.updateCampground = async (req, res) => {
   const { deleteImages } = req.body;
   const { id } = req.params;
-  const isCategorized = 'category' in req.body.campground && req.body.campground.category.length > 0;
+  const isCategorized = 'category' in req.body.campground 
+                          && req.body.campground.category.length > 0;
   const campground = await Campground.findByIdAndUpdate(id, { ...req.body.campground });
   if (!campground) {
     req.flash('error', 'Cannot find that campground!');
     return res.redirect('/campgrounds');
   }
   
+  // Update location
+  if (req.body.campground.location !== campground.location) {
+    const geoData = await geocodingService.forwardGeocode({
+      query: req.body.campground.location,
+      limit: 1
+    }).send();
+    campground.geometry = geoData.body.features[0].geometry;
+    campground.location = req.body.campground.location;
+  }
+
   const imgs = req.files.map(f => { return { url: f.path, filename: f.filename } })
   campground.images.push(...imgs);
   if (!isCategorized)
