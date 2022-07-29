@@ -3,6 +3,14 @@
 
 <main class="container p-5">
   
+  <!-- Search bar -->
+  <div class="input-group mb-5">
+    <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="button-search">
+    <button class="btn btn-primary" type="button" id="button-search">
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+  </div>
+
   <!-- Campground Cards -->
   <% for( const campground of campgrounds ) { %>
   <div class="card mb-3">
