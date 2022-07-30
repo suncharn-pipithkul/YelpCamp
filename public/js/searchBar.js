@@ -1,3 +1,4 @@
+const searchForm = document.querySelector('#search-form');
 const inputSearch = document.querySelector('#input-search');
 const searchCard = document.querySelector('#search-results');
 const searchUl = searchCard.children[0];
@@ -10,6 +11,10 @@ const btnClear = document.querySelector('#button-clear');
 inputSearch.addEventListener('keyup', autosuggest);
 inputSearch.addEventListener('focus', autosuggest);
 btnClear.addEventListener('click', reset);
+searchForm.addEventListener('submit', function(e) {
+  if (inputSearch.value.length <= 0)
+    e.preventDefault();
+});
 
 async function autosuggest() {
   // Query to DB only when there're more than 2 characters
