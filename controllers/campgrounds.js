@@ -4,6 +4,7 @@ const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const mapboxToken = process.env.MAPBOX_TOKEN;
 const geocodingService = mbxGeocoding({ accessToken: mapboxToken});
 const { escapeHtml } = require('../utils/escapeHtml');
+const url = require('url');
 
 
 // Autosuggest campgrounds
@@ -64,8 +65,13 @@ module.exports.index = async (req, res) => {
     }
   } else {
     // All campgrounds
-    const campgrounds = await Campground.find({});
-    res.render('campgrounds/index.ejs', { campgrounds, searchQuery: '' });
+    // If query string is empty cut the query out of url
+    if (req.query.q === '') {
+      res.redirect(url.parse(req.originalUrl).pathname);
+    } else {
+      const campgrounds = await Campground.find({});
+      res.render('campgrounds/index.ejs', { campgrounds, searchQuery: '' });
+    }
   }
 };
 
