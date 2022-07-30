@@ -1,5 +1,7 @@
 :root {
   --clr-light-gray: hsl(207,6%,73%);
+  --clr-primary: hsl(216,98%,52%);
+  --clr-primary-light: hsl(207, 98%, 52%);
 }
 
 #search-form {
@@ -73,6 +75,6 @@
 }
 
 .select {
-  background-color: hsl(216,98%,52%) !important;
+  background-color: var(--clr-primary-light) !important;
   color: white !important;
 }

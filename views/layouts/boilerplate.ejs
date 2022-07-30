@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/css/searchBar.css">
+    <link rel="stylesheet" href="/css/backToTopBtn.css">
     <link rel="icon" type="image/x-icon" href="/images/icons/blue-logo.png">
 
     <!-- BootStrap CSS only -->
@@ -30,6 +31,9 @@
     <main class="">
       <%- include('../partials/flash.ejs') %> 
       <%- body %>
+      <button id="btn-back-to-top" class="btn btn-primary shadow rounded-circle">
+        <i class="fa-solid fa-arrow-up"></i>
+      </button>
     </main>
     <%- include('../partials/footer.ejs') %>
 
@@ -42,5 +46,6 @@
 
     <script src="/js/validateForm.js"></script>
     <script src="/js/navbar.js"></script>
+    <script src="/js/backToTopBtn.js"></script>
   </body>
 </html>

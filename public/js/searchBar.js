@@ -21,25 +21,28 @@ searchForm.addEventListener('submit', function(e) {
 async function autosuggest() {
   // Query to DB only when there're more than 2 characters
   if (inputSearch.value.length >= 1) {
-    const htmlEscapedInput = escapeHtml(inputSearch.value); // Sanitizing input against xss
-    const res = await fetch(`/campgrounds/suggest?q=${htmlEscapedInput}`);
-    const data = await res.json();
-
-    searchUl.replaceChildren();
-    searchCard.classList.toggle('border-0', data.campgrounds.length <= 0);
-    for (const campground of data.campgrounds) {
-      const searchItem = createSearchItem(campground);
-      searchUl.append(searchItem);
-
-      // Highlight the item if there's only 1 search result
-      if (data.campgrounds.length === 1) {
-        searchItem.children[0].classList.add('select');
-        searchItem.children[0].children[0].classList.add('select');
+    try {
+      const htmlEscapedInput = escapeHtml(inputSearch.value); // Sanitizing input against xss
+      const res = await fetch(`/campgrounds/suggest?q=${htmlEscapedInput}`);
+      const data = await res.json();
+  
+      searchUl.replaceChildren();
+      searchCard.classList.toggle('border-0', data.campgrounds.length <= 0);
+      for (const campground of data.campgrounds) {
+        const searchItem = createSearchItem(campground);
+        searchUl.append(searchItem);
+  
+        // Highlight the item if there's only 1 search result
+        if (data.campgrounds.length === 1) {
+          searchItem.children[0].classList.add('select');
+          searchItem.children[0].children[0].classList.add('select');
+        }
       }
+    } catch(e) {
+      console.log('ERROR', e);
     }
   } else {
-    searchUl.replaceChildren();
-    searchCard.classList.add('border-0');
+    searchUl.replaceChildren();   searchCard.classList.add('border-0');
   }
 }
 
