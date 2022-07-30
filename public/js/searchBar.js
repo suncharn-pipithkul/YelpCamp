@@ -3,9 +3,11 @@ const searchCard = document.querySelector('#search-results');
 const searchUl = searchCard.children[0];
 const btnSearch = document.querySelector('#button-search');
 
+inputSearch.focus();
+inputSearch.setSelectionRange(inputSearch.value.length, inputSearch.value.length);
 inputSearch.addEventListener('keyup', async function(e) {
   // Query to DB only when there're more than 2 characters
-  if (this.value.length >= 2) {
+  if (this.value.length >= 1) {
     const htmlEscapedInput = escapeHtml(this.value); // Sanitizing input against xss
     const res = await fetch(`/campgrounds/suggest?q=${htmlEscapedInput}`);
     const data = await res.json();

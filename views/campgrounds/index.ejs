@@ -4,7 +4,7 @@
 <main class="container p-5">
   
   <!-- Search bar -->
-  <form id="search-form" class="mb-5" action="/campgrounds" method="GET" >
+  <form id="search-form" action="/campgrounds" method="GET" >
     <div class="input-group">      
       <input 
         type="search"
@@ -16,7 +16,6 @@
         aria-label="Search" 
         aria-describedby="button-search"
         value="<%= searchQuery || '' %>"
-        autofocus
       >
       <button class="btn btn-primary" id="button-search">
         <i class="fa-solid fa-magnifying-glass"></i>
@@ -29,10 +28,12 @@
 
   <!-- search query  -->
   <% if (searchQuery !== '') { %>   
-    <div class="mb-3">
-      <p><%= campgrounds.length %> results for: "<%= searchQuery %>"</p>
+    <div class="mt-2 mb-4">
+      <p class="text-secondary"><%= campgrounds.length %> results for: "<%= searchQuery %>"</p>
     </div>
-  <% } %>
+  <% } else { %>
+    <div class="mb-5"></div>
+  <% } %> 
 
   <!-- Campground Cards -->
   <% for( const campground of campgrounds ) { %>
