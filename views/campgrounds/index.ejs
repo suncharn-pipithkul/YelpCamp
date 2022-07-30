@@ -27,6 +27,13 @@
     </div>
   </form>
 
+  <!-- search query  -->
+  <% if (searchQuery !== '') { %>   
+    <div class="mb-3">
+      <p><%= campgrounds.length %> results for: "<%= searchQuery %>"</p>
+    </div>
+  <% } %>
+
   <!-- Campground Cards -->
   <% for( const campground of campgrounds ) { %>
   <div class="card mb-3">

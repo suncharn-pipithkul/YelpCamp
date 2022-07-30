@@ -21,6 +21,12 @@
   z-index: 4;
 }
 
+#search-results a:focus .hoverable,
+#search-results a:focus .hoverable > i {
+  background-color: hsl(216,98%,52%) !important;
+  color: white !important;
+}
+
 .hoverable {
   border: 0 !important;
   position: relative;
@@ -43,7 +49,8 @@
 }
 
 .hoverable:hover,
-.hoverable:hover > i {
+.hoverable:hover > i,
+.hoverable:focus {
   background-color: hsl(216,98%,52%) !important;
   color: white !important;
 }
