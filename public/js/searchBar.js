@@ -30,6 +30,12 @@ async function autosuggest() {
     for (const campground of data.campgrounds) {
       const searchItem = createSearchItem(campground);
       searchUl.append(searchItem);
+
+      // Highlight the item if there's only 1 search result
+      if (data.campgrounds.length === 1) {
+        searchItem.children[0].classList.add('select');
+        searchItem.children[0].children[0].classList.add('select');
+      }
     }
   } else {
     searchUl.replaceChildren();
