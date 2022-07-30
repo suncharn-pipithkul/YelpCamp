@@ -9,11 +9,7 @@ const btnClear = document.querySelector('#button-clear');
 // })();
 inputSearch.addEventListener('keyup', autosuggest);
 inputSearch.addEventListener('focus', autosuggest);
-btnClear.addEventListener('click', function(e) {
-  inputSearch.value = '';
-  searchUl.replaceChildren();
-  searchCard.classList.add('border-0');
-});
+btnClear.addEventListener('click', reset);
 
 async function autosuggest() {
   // Query to DB only when there're more than 2 characters
@@ -32,6 +28,13 @@ async function autosuggest() {
     searchUl.replaceChildren();
     searchCard.classList.add('border-0');
   }
+}
+
+// Reset Autosuggest form
+function reset() {
+  inputSearch.value = '';
+  searchUl.replaceChildren();
+  searchCard.classList.add('border-0');
 }
 
 // Search List Item
