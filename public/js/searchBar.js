@@ -10,18 +10,32 @@ inputSearch.addEventListener('keyup', async function(e) {
     const res = await fetch(`/campgrounds/suggest?q=${htmlEscapedInput}`);
     const data = await res.json();
 
+    // if (data.campgrounds.length > 0) {
+    //   const searchTitle = document.createElement('h5');
+    //   searchTitle.classList.add('card-header');
+    //   searchTitle.textContent = 'Campground Title';
+    //   searchCard.prepend(searchTitle);
+    // }
+
     searchUl.replaceChildren();
     searchCard.classList.toggle('border-0', data.campgrounds.length <= 0);
     for (const campground of data.campgrounds) {
       const searchItem = createSearchItem(campground);
       searchUl.append(searchItem);
     }
+
+    // if (document.getElementById('search-title-header') !== null && searchUl.children.length > 0) {
+    //   console.log('yes');
+    // } else {
+    //   console.log('no');
+    // }
   } else {
     searchUl.replaceChildren();
     searchCard.classList.add('border-0');
   }
 });
 
+// Search List Item
 // <a>
 //   <li>
 //     <icon></icon>campground title

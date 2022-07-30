@@ -40,6 +40,7 @@ module.exports.suggestCampgrounds = async (req, res) => {
 // All campgrounds page
 module.exports.index = async (req, res) => {
   if (req.query.q) {
+    // Searched Campgrounds
     const htmlEscapedQuery = escapeHtml(req.query.q);
     const campgrounds = await Campground.aggregate([
       {
@@ -54,11 +55,17 @@ module.exports.index = async (req, res) => {
         }
       },
     ]);
-    res.render('campgrounds/index.ejs', { campgrounds, htmlEscapedQuery });
 
+    // Redirect to show page if there's only 1 search result 
+    if (campgrounds.length === 1) {
+      res.redirect(`campgrounds/${campgrounds[0]._id}`);
+    } else { // else displayed all search results on /campgrounds
+      res.render('campgrounds/index.ejs', { campgrounds, searchQuery: htmlEscapedQuery });
+    }
   } else {
+    // All campgrounds
     const campgrounds = await Campground.find({});
-    res.render('campgrounds/index.ejs', { campgrounds });
+    res.render('campgrounds/index.ejs', { campgrounds, searchQuery: '' });
   }
 };
 
