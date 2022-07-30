@@ -42,7 +42,7 @@
 
 #search-results a:focus .hoverable,
 #search-results a:focus .hoverable > i {
-  background-color: hsl(216,98%,52%) !important;
+  background-color: var(--clr-primary) !important;
   color: white !important;
 }
 
@@ -70,11 +70,11 @@
 .hoverable:hover,
 .hoverable:hover > i,
 .hoverable:focus {
-  background-color: hsl(216,98%,52%) !important;
+  background-color: var(--clr-primary) !important;
   color: white !important;
 }
 
 .select {
-  background-color: var(--clr-primary-light) !important;
+  background-color: var(--clr-primary) !important;
   color: white !important;
 }
