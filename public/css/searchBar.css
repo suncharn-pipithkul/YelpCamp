@@ -1,0 +1,49 @@
+:root {
+  --clr-light-gray: hsl(207,6%,73%);
+}
+
+#search-form {
+  position: relative;
+}
+
+.input-group {
+  z-index: 3;
+}
+
+#search-results {
+  position: absolute;
+  z-index: 2; 
+  width: 100%;
+  box-shadow: 0 3px 20px rgba(0, 0, 0, 0.2);
+}
+
+#search-results a {
+  z-index: 4;
+}
+
+.hoverable {
+  border: 0 !important;
+  position: relative;
+}
+
+.hoverable i {
+  color: var(--clr-light-gray);
+}
+
+.hoverable::before {
+  content: '';
+  display: block;
+  position: absolute;
+  bottom: 0;
+  width: 90%;
+  left: 5%;
+  border-top: 1px dotted var(--clr-light-gray);
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.hoverable:hover,
+.hoverable:hover > i {
+  background-color: hsl(216,98%,52%) !important;
+  color: white !important;
+}

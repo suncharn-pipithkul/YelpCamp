@@ -4,12 +4,26 @@
 <main class="container p-5">
   
   <!-- Search bar -->
-  <div class="input-group mb-5">
-    <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="button-search">
-    <button class="btn btn-primary" type="button" id="button-search">
-      <i class="fa-solid fa-magnifying-glass"></i>
-    </button>
-  </div>
+  <form id="search-form" class="mb-5" action="/campgrounds" method="GET" >
+    <div class="input-group">      
+      <input 
+        type="search"
+        class="form-control autocomplete py-2" 
+        id="input-search" 
+        name="q" 
+        placeholder="Search"
+        autocomplete="off"
+        aria-label="Search" 
+        aria-describedby="button-search"
+      >
+      <button class="btn btn-primary" id="button-search">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+    </div>
+    <div id="search-results" class="card border-0 border-top-0" >
+      <ul class="list-group list-group-flush"></ul>
+    </div>
+  </form>
 
   <!-- Campground Cards -->
   <% for( const campground of campgrounds ) { %>
@@ -18,7 +32,10 @@
       <!-- campground image -->
       <div class="col-lg-4 my-auto mx-auto">
         <% if (campground.images.length) { %>
-          <img class="img-fluid rounded" src="<%= campground.images[0]?.cover %>" alt="" />
+          <img 
+            class="img-fluid rounded" 
+            src="<%= campground.images[0].url.replace('/upload', '/upload/ar_4:3,c_crop') %>" alt="" 
+          />
         <% } else { %>
           <img class="img-fluid rounded" src="https://res.cloudinary.com/dhqivgfzq/image/upload/v1657768730/YelpCamp/no-image_ygqzt6.png" alt="no image available">
         <% } %>
@@ -58,7 +75,13 @@
   const mapboxToken = '<%= process.env.MAPBOX_TOKEN %>';
   const campgrounds = { features: <%- JSON.stringify(campgrounds) %> };
 </script>
+
+<script src="/js/escapeHtml.js"></script>
+<script src="/js/searchBar.js"></script>
+
 <!-- Load the `mapbox-gl-geocoder` plugin. -->
 <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
 <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css">
 <script src="/js/clusterMap.js"></script>
+
+

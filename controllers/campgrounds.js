@@ -3,12 +3,63 @@ const { cloudinary } = require('../cloudinary');
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const mapboxToken = process.env.MAPBOX_TOKEN;
 const geocodingService = mbxGeocoding({ accessToken: mapboxToken});
+const { escapeHtml } = require('../utils/escapeHtml');
 
+
+// Autosuggest campgrounds
+module.exports.suggestCampgrounds = async (req, res) => {
+  if (req.query.q) {
+    const htmlEscapedInput = escapeHtml(req.query.q);
+    const campgrounds = await Campground.aggregate([
+      {
+        $search: {
+          "autocomplete": {
+            "path": "title",
+            "query": `${htmlEscapedInput}`,
+            "fuzzy": { // allow typos
+              "maxEdits": 1
+            }
+          }
+        }
+      },
+      {
+        $limit: 5
+      },
+      {
+        // which fields to return
+        $project: {
+          "_id": true,
+          "title": true,
+        }
+      }
+    ]);
+    res.json({ campgrounds });
+  }
+};
 
 // All campgrounds page
 module.exports.index = async (req, res) => {
-  const campgrounds = await Campground.find({});
-  res.render('campgrounds/index.ejs', { campgrounds });
+  if (req.query.q) {
+    const htmlEscapedQuery = escapeHtml(req.query.q);
+    const campgrounds = await Campground.aggregate([
+      {
+        $search: {
+          "autocomplete": {
+            "path": "title",
+            "query": `${htmlEscapedQuery}`,
+            "fuzzy": { // allow typos
+              "maxEdits": 1
+            }
+          }
+        }
+      },
+    ]);
+    res.render('campgrounds/index.ejs', { campgrounds, htmlEscapedQuery });
+
+  } else {
+    const campgrounds = await Campground.find({});
+    res.render('campgrounds/index.ejs', { campgrounds });
+  }
 };
 
 // Create new campground page

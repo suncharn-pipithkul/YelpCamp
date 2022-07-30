@@ -22,6 +22,9 @@ router.route('/')
 // Create new campground page
 router.get('/new', isLoggedIn, campgroundController.renderNewForm);
 
+router.get('/suggest', campgroundController.suggestCampgrounds);
+
+
 // GET: View campground detail page
 // PUT: Submit edit campground route
 // DELETE: Delete campground route
@@ -37,7 +40,6 @@ router.route('/:id')
 
 // Edit campground page
 router.get('/:id/edit', isLoggedIn, isCampgroundAuthor, catchAsync(campgroundController.renderEditForm));
-
 
 
 
