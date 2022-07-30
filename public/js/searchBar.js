@@ -12,8 +12,10 @@ inputSearch.addEventListener('keyup', autosuggest);
 inputSearch.addEventListener('focus', autosuggest);
 btnClear.addEventListener('click', reset);
 searchForm.addEventListener('submit', function(e) {
-  if (inputSearch.value.length <= 0)
+  if (inputSearch.value.length <= 0) {
     e.preventDefault();
+    inputSearch.focus();
+  }
 });
 
 async function autosuggest() {
