@@ -3,21 +3,22 @@ const searchCard = document.querySelector('#search-results');
 const searchUl = searchCard.children[0];
 const btnSearch = document.querySelector('#button-search');
 
-inputSearch.focus();
-inputSearch.setSelectionRange(inputSearch.value.length, inputSearch.value.length);
-inputSearch.addEventListener('keyup', async function(e) {
+// (async function() {
+//   await autosuggest();
+// })();
+inputSearch.addEventListener('keyup', autosuggest);
+inputSearch.addEventListener('focus', autosuggest);
+inputSearch.addEventListener('blur', function(e) {
+  searchUl.replaceChildren();
+  searchCard.classList.add('border-0');
+})
+
+async function autosuggest() {
   // Query to DB only when there're more than 2 characters
-  if (this.value.length >= 1) {
-    const htmlEscapedInput = escapeHtml(this.value); // Sanitizing input against xss
+  if (inputSearch.value.length >= 1) {
+    const htmlEscapedInput = escapeHtml(inputSearch.value); // Sanitizing input against xss
     const res = await fetch(`/campgrounds/suggest?q=${htmlEscapedInput}`);
     const data = await res.json();
-
-    // if (data.campgrounds.length > 0) {
-    //   const searchTitle = document.createElement('h5');
-    //   searchTitle.classList.add('card-header');
-    //   searchTitle.textContent = 'Campground Title';
-    //   searchCard.prepend(searchTitle);
-    // }
 
     searchUl.replaceChildren();
     searchCard.classList.toggle('border-0', data.campgrounds.length <= 0);
@@ -25,17 +26,11 @@ inputSearch.addEventListener('keyup', async function(e) {
       const searchItem = createSearchItem(campground);
       searchUl.append(searchItem);
     }
-
-    // if (document.getElementById('search-title-header') !== null && searchUl.children.length > 0) {
-    //   console.log('yes');
-    // } else {
-    //   console.log('no');
-    // }
   } else {
     searchUl.replaceChildren();
     searchCard.classList.add('border-0');
   }
-});
+}
 
 // Search List Item
 // <a>
