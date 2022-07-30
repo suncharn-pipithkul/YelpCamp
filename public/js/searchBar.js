@@ -8,10 +8,10 @@ const btnSearch = document.querySelector('#button-search');
 // })();
 inputSearch.addEventListener('keyup', autosuggest);
 inputSearch.addEventListener('focus', autosuggest);
-inputSearch.addEventListener('blur', function(e) {
-  searchUl.replaceChildren();
-  searchCard.classList.add('border-0');
-})
+// inputSearch.addEventListener('blur', function(e) {
+//   searchUl.replaceChildren();
+//   searchCard.classList.add('border-0');
+// });
 
 async function autosuggest() {
   // Query to DB only when there're more than 2 characters
