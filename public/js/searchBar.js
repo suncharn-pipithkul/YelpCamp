@@ -2,16 +2,18 @@ const inputSearch = document.querySelector('#input-search');
 const searchCard = document.querySelector('#search-results');
 const searchUl = searchCard.children[0];
 const btnSearch = document.querySelector('#button-search');
+const btnClear = document.querySelector('#button-clear');
 
 // (async function() {
 //   await autosuggest();
 // })();
 inputSearch.addEventListener('keyup', autosuggest);
 inputSearch.addEventListener('focus', autosuggest);
-// inputSearch.addEventListener('blur', function(e) {
-//   searchUl.replaceChildren();
-//   searchCard.classList.add('border-0');
-// });
+btnClear.addEventListener('click', function(e) {
+  inputSearch.value = '';
+  searchUl.replaceChildren();
+  searchCard.classList.add('border-0');
+});
 
 async function autosuggest() {
   // Query to DB only when there're more than 2 characters

@@ -7,7 +7,24 @@
 }
 
 .input-group {
+  position: relative;
+  width: 100%;
   z-index: 3;
+}
+
+#input-search {
+
+}
+
+#button-clear {
+  z-index: 5;
+  position: absolute;
+  top: calc(21px - 11px);
+  right: 58px;
+}
+
+#button-search {
+  width: 42px; 
 }
 
 #search-results {
